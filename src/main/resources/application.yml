@@ -1,0 +1,23 @@
+#应用名称
+spring:
+  application:
+    name: bany-game
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bany-game
+    username: root
+    password: root
+    max-idle: 20
+    max-wait: 10
+    min-idle: 10
+    initial-size: 10
+
+#容器端口
+server:
+  port: 80
+
+
+
+
+
+#数据库地址
