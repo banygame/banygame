@@ -15,4 +15,11 @@ public class LoginController {
         return "hello";
     }
 
+    @GetMapping("/login")
+    public String login(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+        model.addAttribute("name", name);
+        return "login";
+    }
+
+
 }
