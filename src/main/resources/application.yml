@@ -1,4 +1,4 @@
-#应用名称
+#搴旂敤鍚嶇О
 spring:
   application:
     name: bany-game
@@ -12,12 +12,16 @@ spring:
     min-idle: 10
     initial-size: 10
 
-#容器端口
+#搴旂敤绔彛
 server:
   port: 80
 
+#閰嶇疆mybatis plugs
+# Logger Config
+logging:
+  level:
+    com.baomidou.mybatisplus.samples.quickstart: debug
 
 
 
 
-#数据库地址

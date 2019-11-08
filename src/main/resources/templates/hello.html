@@ -3,11 +3,50 @@
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Hello World!</title>
+
+    <link rel="stylesheet" href="../static/css/dateTime.css">
 </head>
 <body>
 <h1 th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</h1>
-<form th:action="@{/logout}" method="post">
-    <input type="submit" value="Sign Out"/>
+
+
+
+<form id="form1" method="post">
+    <input type="text" placeholder="请选择日期和时间" name="punchTime" id="datetime">
 </form>
+<button onclick = "punch()">打卡</button>
+
+<script src="../static/js/jquery.min.js"></script>
+<script src="../static/js/dateTime.min.js"></script>
+<script>
+    $("#datetime").datetime({
+        type:"datetime",
+        value:[2019,7,15,15,30]
+    })
+    function punch(){
+        $.ajax({
+            //几个参数需要注意一下
+            type: "get",//方法类型
+            dataType: "json",//预期服务器返回的数据类型
+            url: "/punch" ,//url
+            data: $('#form1').serialize(),
+            success: function (result) {
+                console.log(result);
+                if (result.status == "200") {
+                    alert("打卡成功");
+                }else {
+                    alert("未知异常");
+                }
+
+            },
+            error : function() {
+                alert("异常！");
+            }
+        })
+    }
+
+
+
+</script>
 </body>
 </html>
