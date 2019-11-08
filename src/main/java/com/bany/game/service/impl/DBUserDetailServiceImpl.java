@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,6 +15,9 @@ public class DBUserDetailServiceImpl implements DBUserDetailService {
 
     @Autowired
     private UserMapper userMapper ;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -30,7 +34,8 @@ public class DBUserDetailServiceImpl implements DBUserDetailService {
 
         User user = new User();
         user.setUsername(username);
-        user.setPassword(password);
+
+        user.setPassword(passwordEncoder.encode(password));
         user.setBenable(true);
         int insert = userMapper.insert(user);
         return insert;

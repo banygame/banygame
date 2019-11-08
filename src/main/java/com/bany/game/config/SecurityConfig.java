@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                  //验证请求
                 .authorizeRequests()
                     //放行路径
-                    .antMatchers( "/","/static/**").permitAll()
+                    .antMatchers( "/","/static/**","/regist").permitAll()
                     .anyRequest().authenticated()
                     .and()
                     //放行路径
@@ -51,7 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder builder) throws Exception{
-        builder.userDetailsService(dbUserDetailService).passwordEncoder(new BCryptPasswordEncoder());
+        builder.userDetailsService(dbUserDetailService).passwordEncoder(passwordEncoder);
     }
 
     /**

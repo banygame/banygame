@@ -1,5 +1,7 @@
 package com.bany.game.controller;
 
+import com.bany.game.service.DBUserDetailService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
+    @Autowired
+    private DBUserDetailService userDetailService;
 
     @GetMapping("/hello")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -28,8 +32,8 @@ public class LoginController {
         return "regist";
     }
     @PostMapping("/regist")
-    public String registUser(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
-
+    public String registUser(String username,String password) {
+        userDetailService.regist(username,password);
         return "hello";
     }
 
