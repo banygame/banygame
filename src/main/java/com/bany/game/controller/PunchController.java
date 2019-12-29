@@ -24,7 +24,6 @@ public class PunchController {
         String userName = ((User) authentication.getPrincipal()).getUsername();
         String result = punchService.punch(userName, punchTime);
 
-
         return result;
     }
 

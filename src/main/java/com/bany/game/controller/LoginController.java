@@ -32,8 +32,12 @@ public class LoginController {
         return "regist";
     }
     @PostMapping("/regist")
-    public String registUser(String username,String password) {
-        userDetailService.regist(username,password);
+    public String registUser(String username,String password,Model model) {
+        int regist = userDetailService.regist(username, password);
+        if(regist<=0){
+            model.addAttribute("error","注册失败，用户名可能已存在");
+            return "hello";
+        }
         return "hello";
     }
 
