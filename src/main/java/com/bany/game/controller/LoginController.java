@@ -36,7 +36,7 @@ public class LoginController {
         int regist = userDetailService.regist(username, password);
         if(regist<=0){
             model.addAttribute("error","注册失败，用户名可能已存在");
-            return "hello";
+            return "regist";
         }
         return "hello";
     }

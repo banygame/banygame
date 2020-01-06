@@ -12,9 +12,7 @@
     <title>Spring Security Example </title>
 </head>
 <body>
-<div th:if="${param.error}">
-    注册失败
-</div>
+<h1 th:text="${error}">??</h1>>
 
 <form th:action="@{/regist}" method="post">
     <h1>注册页面</h1>
