@@ -1,10 +1,13 @@
 package com.bany.game.service.impl;
 
+import cn.hutool.cache.CacheUtil;
+import cn.hutool.cache.impl.FIFOCache;
+import cn.hutool.core.date.DateUnit;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.bany.game.common.Util.HttpsUtil;
 import com.bany.game.service.PunchService;
-import lombok.Data;
 import org.jsoup.Connection;
 import org.springframework.stereotype.Service;
 
@@ -31,12 +34,31 @@ public class PunchServiceImpl implements PunchService {
 
 
         try {
-            Connection.Response res = null;
-            res = HttpsUtil.post(AUTH, headers, AUTHJson);
-            JSONObject jsonObject = JSONObject.parseObject(res.body().toString());
-            JSONObject data = jsonObject.getJSONObject("data");
-            String accessToken = data.getString("accessToken");
-            String tenantId = data.getString("tenantId");
+
+            String accessToken = "";
+            String tenantId = "";
+            FIFOCache<String, String> cache = CacheUtil.newFIFOCache(2);
+
+            if(ObjectUtil.isNull(cache.get("accessToken"))){
+                Connection.Response res = null;
+                res = HttpsUtil.post(AUTH, headers, AUTHJson);
+                JSONObject jsonObject = JSONObject.parseObject(res.body().toString());
+                JSONObject data = jsonObject.getJSONObject("data");
+                 accessToken = data.getString("accessToken");
+                tenantId = data.getString("tenantId");
+                 //存入缓存
+                cache.put("accessToken",accessToken, DateUnit.DAY.getMillis() * 3);
+                cache.put("tenantId",accessToken, DateUnit.DAY.getMillis() * 3);
+
+
+
+            }else {
+                accessToken = cache.get("accessToken");
+                tenantId = cache.get("tenantId");
+
+            }
+
+
             //存储token
             System.out.println("accessToken==" + accessToken);
             //获取所有员工记录

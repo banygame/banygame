@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class LoginController {
 
     @Autowired
-    private DBUserDetailService userDetailService;
+    private DBUserDetailService dbUserDetailService;
 
     @GetMapping("/hello")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -33,12 +33,12 @@ public class LoginController {
     }
     @PostMapping("/regist")
     public String registUser(String username,String password,Model model) {
-        int regist = userDetailService.regist(username, password);
+        int regist = dbUserDetailService.regist(username, password);
         if(regist<=0){
             model.addAttribute("error","注册失败，用户名可能已存在");
             return "regist";
         }
-        return "hello";
+        return "index";
     }
 
 

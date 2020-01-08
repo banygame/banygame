@@ -1,6 +1,8 @@
 package com.bany.game.model;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.Getter;
@@ -8,11 +10,10 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.util.CollectionUtils;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 
 @Setter
 @Getter
@@ -20,6 +21,8 @@ import java.util.List;
 @TableName("sys_user")
 public class User implements UserDetails {
 
+    @TableId(type = IdType.AUTO)
+    private Long id ;
 
     private String username;
 
@@ -30,6 +33,12 @@ public class User implements UserDetails {
     @TableField(exist = false)
 
     private String roles; //需要修改
+
+    private Date createTime;
+
+    private String mobile;
+
+    private String img;
 
 
     @Override

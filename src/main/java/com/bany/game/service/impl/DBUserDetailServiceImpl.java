@@ -1,6 +1,5 @@
 package com.bany.game.service.impl;
 
-import cn.hutool.core.util.ObjectUtil;
 import com.bany.game.mapper.UserMapper;
 import com.bany.game.model.User;
 import com.bany.game.service.DBUserDetailService;
@@ -11,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,9 +36,9 @@ public class DBUserDetailServiceImpl implements DBUserDetailService {
     public int regist(String username, String password) {
 
 
-        List<User> username1 = userMapper.selectList(new QueryWrapper<User>().eq("username", username));
+        List<User> usernames = userMapper.selectList(new QueryWrapper<User>().eq("username", username));
 
-        if(ObjectUtil.isNotNull(username1)){
+        if(!usernames.isEmpty()){
             return -1;
         }
         User user = new User();
@@ -46,6 +46,7 @@ public class DBUserDetailServiceImpl implements DBUserDetailService {
 
         user.setPassword(passwordEncoder.encode(password));
         user.setBenable(true);
+        user.setCreateTime(new Date());
         int insert = userMapper.insert(user);
         return insert;
     }
